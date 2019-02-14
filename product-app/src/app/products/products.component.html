@@ -1,0 +1,7 @@
+<mat-action-list>
+  <mat-list-item *ngFor="let product of productService.products" routerLink='/products/{{product.id}}' mat-list-item>
+    <button >{{product.id}}) {{product.name}}</button>
+  </mat-list-item>
+</mat-action-list>
+<br>
+<router-outlet></router-outlet>

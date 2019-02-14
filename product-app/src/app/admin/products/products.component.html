@@ -1,0 +1,10 @@
+<mat-grid-list cols="4" rowHeight="100px">
+  <mat-grid-tile
+      *ngFor="let product of productService.products"
+      [colspan]="3"
+      [rowspan]="1">
+    {{ product.name }}
+  </mat-grid-tile>
+</mat-grid-list>
+
+<!-- [style.background]="" -->
