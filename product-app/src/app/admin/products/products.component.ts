@@ -12,6 +12,23 @@ export class ProductsComponent implements OnInit {
 
   }
 
+  step: number;
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
+  }
+
+  remove() {
+    console.log('remove');
+  }
   ngOnInit() {
   }
 
