@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Edit</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="example-container">
+    <mat-form-field>
+      <input matInput placeholder="Name" [formControl]="name" required>
+      <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Cost" [formControl]="cost" required>
+      <mat-error *ngIf="cost.invalid">{{getCostErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Category" [formControl]="category" required>
+      <mat-error *ngIf="category.invalid">{{getCategoryErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Count" [formControl]="count" required type="number">
+      <mat-error *ngIf="count.invalid">{{getCountErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [formControl]="removedate" required type="datetime-local">
+      <mat-error *ngIf="removedate.invalid">{{getRemoveDateErrorMessage()}}</mat-error>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>
+

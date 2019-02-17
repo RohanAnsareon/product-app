@@ -14,6 +14,7 @@ import { MatButtonModule, MatDialogModule, MatGridListModule, MatIconModule } fr
 import { MatListModule } from '@angular/material/list';
 import { InfoModComponent } from './info/info-mod/info-mod.component';
 import { BasketModComponent } from './basket/basket-mod/basket-mod.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { BasketModComponent } from './basket/basket-mod/basket-mod.component';
     MatGridListModule,
     MatIconModule,
 
-    AdminModule
+    AdminModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

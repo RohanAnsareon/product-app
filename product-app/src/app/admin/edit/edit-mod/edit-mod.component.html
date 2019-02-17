@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>Edit</h2>
+<mat-dialog-content class="mat-typography">
+  <input id="name" name="name" class="form-control"
+  required minlength="4"
+  [(ngModel)]="model.name" #name="ngModel" >
+
+  <div *ngIf="name.invalid && (name.dirty || name.touched)"
+    class="alert alert-danger">
+    <div *ngIf="name?.errors.required">
+      Name is required.
+    </div>
+    <div *ngIf="name?.errors.minlength">
+      Name must be at least 4 characters long.
+    </div>
+  </div>
+
+  <input id="cost" name="cost" class="form-control"
+  required
+  [(ngModel)]="model.cost" #cost="ngModel" >
+
+  <div *ngIf="cost.invalid && (cost.dirty || cost.touched)"
+    class="alert alert-danger">
+    <div *ngIf="cost?.errors.required">
+      Cost is required
+    </div>
+  </div>
+
+  <input id="category" name="category" class="form-control"
+  required minlength="4"
+  [(ngModel)]="model.category" #category="ngModel" >
+
+  <div *ngIf="category.invalid && (category.dirty || category.touched)"
+    class="alert alert-danger">
+    <div *ngIf="category?.errors.required">
+      Category is required.
+    </div>
+  </div>
+
+  <mat-checkbox
+    class="example-margin"
+    [(ngModel)]="model.available"
+    labelPosition="before">
+       Available
+  </mat-checkbox>
+
+  <input id="count" name="count" class="form-control" type="number" class="form-control"
+  required
+  [(ngModel)]="model.count" #count="ngModel" >
+
+  <div *ngIf="count.invalid && (count.dirty || count.touched)"
+    class="alert alert-danger">
+    <div *ngIf="count?.errors.required">
+      Count is required.
+    </div>
+  </div>
+
+  <input id="removedate" name="removedate" type="datetime-local" class="form-control"
+  [ngModel]="model.removeDate | date:'yyyy-MM-ddTHH:mm'"
+  (ngModelChange)="model.removeDate = $event" required/>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>
+

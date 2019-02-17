@@ -15,7 +15,7 @@ export class BasketService {
                                     product.name,
                                     product.cost,
                                     product.category,
-                                    product.avaliable,
+                                    product.available,
                                     product.count,
                                     product.removeDate);
     if (this._basket.length === 0) {

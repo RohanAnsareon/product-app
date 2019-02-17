@@ -4,7 +4,7 @@ export class Product {
     public name:       string,
     public cost:       number,
     public category:   string,
-    public avaliable:  boolean,
+    public available:  boolean,
     public count:      number,
     public removeDate: Date
   ) { }
