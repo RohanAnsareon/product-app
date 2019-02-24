@@ -1,38 +1,81 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as signalR from '@aspnet/signalr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  clickedProduct: Product = null;
+  private _products: Array<Product>;
 
-  private _products: Array<Product> = new Array<Product>();
+  private hubConnection: signalR.HubConnection;
+
   public get products(): Array<Product> {
     return this._products;
   }
 
-  addProduct(product: Product) {
-    product.id = this._products[this._products.length - 1].id + 1;
-    this._products.push(product);
 
+  public set products(v: Product[]) {
+    this._products = v;
+  }
+
+
+  addProduct(product: Product) {
+    product.id = 0;
+    this.http.post('http://localhost:5000/api/products', product, { observe: 'response' }).subscribe((resp) => {
+      resp.ok ? console.log('SuccessPostRequest') : console.log(resp.body);
+    });
   }
 
   removeProduct(id: number) {
-    this._products.splice(this._products.findIndex((product) => product.id === id), 1);
+    this.http.delete(`http://localhost:5000/api/products/${id}`, { observe: 'response' }).subscribe((resp) => {
+      resp.ok ? console.log('SeccessDeleteRequest') : console.log(resp.body);
+    });
   }
 
   editProduct(product: Product) {
-    const index = this._products.findIndex((p) => p.id === product.id);
-    this._products[index].name = product.name;
-    this._products[index].cost = product.cost;
-    this._products[index].category = product.category;
-    this._products[index].available = product.available;
-    this._products[index].count = product.count;
-    this._products[index].removeDate = product.removeDate;
+    this.http.put(`http://localhost:5000/api/products/${product.id}`, product, {observe: 'response'}).subscribe((resp) => {
+      resp.ok ? console.log('SeccessPutRequest') : console.log(resp.body);
+    });
   }
 
-  constructor(private http: HttpClient) { }
+  getProducts() {
+    this.http.get('http://localhost:5000/api/products').subscribe((data: Product[]) => {
+      this.products = data;
+    });
+  }
+
+  constructor(private http: HttpClient) {
+    this.getProducts();
+
+    this.hubConnection = new signalR.HubConnectionBuilder().withUrl('http://localhost:5000/producthub').build();
+    this.hubConnection
+    .start()
+    .then(() => {
+      console.log('Connection started');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+    this.hubConnection.on('AddProduct', (prod: Product) => {
+      this.products.push(prod);
+    });
+
+    this.hubConnection.on('EditProduct', (id: number, prod: Product) => {
+      const product = this.products.find(p => p.id === id);
+      product.name = prod.name;
+      product.cost = prod.cost;
+      product.category = prod.category;
+      product.available = prod.available;
+      product.count = prod.count;
+      product.removeDate = prod.removeDate;
+    });
+
+    this.hubConnection.on('RemoveProduct', (id: number) => {
+      this.products.splice(this.products.findIndex(p => p.id === id), 1);
+    });
+  }
 }
